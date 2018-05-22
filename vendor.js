@@ -29858,7 +29858,7 @@ function makeDecorator(name, props, parentClass, chainFn, typeFn) {
             metaCtor.call.apply(metaCtor, Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__spread"])([this], args));
             return this;
         }
-        var annotationInstance = new ((_a = DecoratorFactory).bind.apply(_a, Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__spread"])([void 0], args)))();
+        //var annotationInstance = new ((_a = DecoratorFactory).bind.apply(_a, Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__spread"])([void 0], args)))();
         var TypeDecorator = function TypeDecorator(cls) {
             typeFn && typeFn.apply(void 0, Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__spread"])([cls], args));
             // Use of Object.defineProperty is important since it creates non-enumerable property which
@@ -29866,7 +29866,7 @@ function makeDecorator(name, props, parentClass, chainFn, typeFn) {
             var annotations = cls.hasOwnProperty(ANNOTATIONS) ?
                 cls[ANNOTATIONS] :
                 Object.defineProperty(cls, ANNOTATIONS, { value: [] })[ANNOTATIONS];
-            annotations.push(annotationInstance);
+         //   annotations.push(annotationInstance);
             return cls;
         };
         if (chainFn)
