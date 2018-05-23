@@ -161,20 +161,7 @@ angular.module('app', ['dynform'])
           }
         }
       },
-      // "checklist": {
-      //   "type": "checklist",
-      //   "label": "checklist",
-      //   "options": {
-      //     "first": {
-      //       "label": "first option"
-      //     },
-      //     "second": {
-      //       "label": "second option",
-      //       "isOn": "on",   //  If you use Angular versions 1.3.x and up, this needs to be changed to "'on'"...
-      //       "isOff": "off"  //  If you use Angular versions 1.3.x and up, this needs to be changed to "'off'"...
-      //     }
-      //   }
-      // },
+     
       "radio": {
         "type": "radio",
         "label": "radio",
@@ -195,11 +182,7 @@ angular.module('app', ['dynform'])
         "label": "hidden",
         "val": "hidden"
       },
-      // "image": {
-      //   "type": "image",
-      //   "label": "image"
-      //   // "source": "http://angularjs.org/img/AngularJS-large.png"
-      // },
+    
       "legend": {
         "type": "legend",
         "label": "legend"
@@ -211,11 +194,7 @@ angular.module('app', ['dynform'])
       "submit": {
         "type": "submit",
         "label": "submit"
-      }//,
-      // "bogus": {
-      //   "type": "bogus",
-      //   "label": "bogus"
-      // }
+      }
     };
     $scope.stdFormData = {};
     $scope.urlFormData = {};

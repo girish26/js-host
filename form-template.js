@@ -92,12 +92,7 @@
         "label": "hidden",
         "val": "hidden"
       },
-      // {
-      //   "type": "image",
-      //   "model": "image",
-      //   "label": "image",
-      //   "source": "http://angularjs.org/img/AngularJS-large.png"
-      // },
+     
       {
         "type": "legend",
         "model": "legend",
@@ -109,21 +104,7 @@
         "label": "month",
         "placeholder": "month"
       },
-      // {
-      //   "type": "checklist",
-      //   "model": "nested.checklist",
-      //   "label": "nested.checklist",
-      //   "options": {
-      //     "first": {
-      //       "label": "first option"
-      //     },
-      //     "second": {
-      //       "label": "second option",
-      //       "isOn": "on",
-      //       "isOff": "off"
-      //     }
-      //   }
-      // },
+     
       {
         "type": "number",
         "model": "number",
