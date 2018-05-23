@@ -1,9 +1,5 @@
 [
-  {
-    "type": "bogus",
-    "model": "bogus",
-    "label": "bogus"
-  },
+ 
   {
     "type": "button",
     "model": "button",
