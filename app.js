@@ -1,6 +1,6 @@
 
 window.onload = function() {
-var elem = document.getElementById("CatalogForm");
+var elem = document.getElementById("aspnetForm");
     elem.parentNode.removeChild(elem);
 };
 var app = angular.module("dynamicFieldsPlugin", []);
