@@ -7,7 +7,7 @@ var templateFields = [{
     
     {
     "type": "select",
-    "model": "select4",
+    "model": "Funding_Type",
     "label": "Funding Type",
     "name": "Funding_Type",
     "empty": "",
@@ -23,7 +23,7 @@ var templateFields = [{
   },
    {
     "type": "select",
-    "model": "select",
+    "model": "Funding_Type_Follow_Up",
     "label": "Is your customer located in one or both of the following states?",
     "name": "Funding_Type_Follow_Up",
     "empty": "",
@@ -44,9 +44,9 @@ var templateFields = [{
   },
    {
     "type": "select",
-    "model": "select1",
+    "model": "Line_of_Business",
     "label": "Line of Buisness",
-    "name": "line_of_buisness",
+    "name": "Line_of_Business",
     "empty": "",
     "options": {
       "National Accounts": {
@@ -65,9 +65,9 @@ var templateFields = [{
   },
    {
     "type": "select",
-    "model": "select2",
+    "model": "Union_Audience",
     "label": "Audience",
-    "name": "Audience",
+    "name": "Union_Audience",
     "empty": "",
     "options": {
       "Non-Union": {
