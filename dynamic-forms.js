@@ -1,4 +1,9 @@
-
+/**
+* DynamicForms - Build Forms in AngularJS From Nothing But JSON
+* @version v0.0.4 - 2014-11-16
+* @link http://github.com/danhunsaker/angular-dynamic-forms
+* @license MIT, http://opensource.org/licenses/MIT
+*/
 
 /**
 * Dynamically build an HTML form using a JSON array/object as a template.
@@ -112,7 +117,9 @@ angular.module('dynform', [])
                 
                 //  Editable fields (those that can feed models)
                 if (angular.isDefined(supported[field.type].editable) && supported[field.type].editable) {
-                  newElement.attr('name', bracket(field.model));
+
+                  newElement.attr('name', field.name ? field.name : bracket(field.model));
+                  newElement.attr('id', field.id? field.id : field.name);
                   newElement.attr('ng-model', bracket(field.model, attrs.ngModel));
                   // Build parent in case of a nested model
                   setProperty(model, field.model, {}, null, true);
