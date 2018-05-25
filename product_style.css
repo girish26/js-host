@@ -1,4 +1,4 @@
-input[type=text], select {
+#buildTemplateID input[type=text], select {
    
     width: 100px;
     padding: 7px 10px;
