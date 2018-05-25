@@ -1,7 +1,7 @@
 var templateFields = [{
         "type": "text",
         "label": "Company Name",
-        "model": "name.first",
+        "model": "Company_Name",
         "name": "Company_Name"
     },
     
@@ -10,14 +10,14 @@ var templateFields = [{
     "model": "Funding_Type",
     "label": "Funding Type",
     "name": "Funding_Type",
-    "empty": "",
+    "empty": "Please select",
+    
     "options": {
-      "first": {
+      "ASO": {
         "label": "ASO"
       },
-      "second": {
-        "label": "Fully Insured",
-        "group": "first group"
+      "Fully Insured": {
+        "label": "Fully Insured"
       }
    }
   },
@@ -26,7 +26,7 @@ var templateFields = [{
     "model": "Funding_Type_Follow_Up",
     "label": "Is your customer located in one or both of the following states?",
     "name": "Funding_Type_Follow_Up",
-    "empty": "",
+     "empty": "Please select",
     "options": {
       "Neither": {
         "label": "Neither"
@@ -47,7 +47,7 @@ var templateFields = [{
     "model": "Line_of_Business",
     "label": "Line of Buisness",
     "name": "Line_of_Business",
-    "empty": "",
+     "empty": "Please select",
     "options": {
       "National Accounts": {
         "label": "National Accounts"
@@ -68,7 +68,8 @@ var templateFields = [{
     "model": "Union_Audience",
     "label": "Audience",
     "name": "Union_Audience",
-    "empty": "",
+     "empty": "Non-Union",
+    
     "options": {
       "Non-Union": {
         "label": "Non-Union"
