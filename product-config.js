@@ -1,3 +1,4 @@
+
 var templateFields = [{
         "type": "text",
         "label": "Company Name",
@@ -11,7 +12,8 @@ var templateFields = [{
     "label": "Funding Type",
     "name": "Funding_Type",
     "empty": "Please select",
-    
+    "conditionExpression":"formData.Company_Name",
+  
     "options": {
       "ASO": {
         "label": "ASO"
@@ -27,6 +29,7 @@ var templateFields = [{
     "label": "Is your customer located in one or both of the following states?",
     "name": "Funding_Type_Follow_Up",
      "empty": "Please select",
+      "conditionExpression":"formData.Funding_Type == 'ASO'",
     "options": {
       "Neither": {
         "label": "Neither"
@@ -48,6 +51,7 @@ var templateFields = [{
     "label": "Line of Buisness",
     "name": "Line_of_Business",
      "empty": "Please select",
+     "conditionExpression":"formData.Funding_Type_Follow_Up == 'Illinois'",
     "options": {
       "National Accounts": {
         "label": "National Accounts"
@@ -69,7 +73,7 @@ var templateFields = [{
     "label": "Audience",
     "name": "Union_Audience",
      "empty": "Non-Union",
-    
+    "onchange":"shouldHide()",
     "options": {
       "Non-Union": {
         "label": "Non-Union"
@@ -82,5 +86,6 @@ var templateFields = [{
 ];
 
 $j(document).ready(function() {
+    
  	var scope = angular.element(document.getElementById('buildTemplateID')).scope().initialize('tdForm');
 });
