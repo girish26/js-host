@@ -14,9 +14,16 @@
 * @param {Object} ngModel - An object in the current scope where the form data should be stored.
 * @example <dynamic-form template-url="form-template.js" ng-model="formData"></dynamic-form>
 */
-angular.module('dynform', [])
-  .directive('dynamicForm', ['$q', '$parse', '$http', '$templateCache', '$compile', '$document', '$timeout', function ($q, $parse, $http, $templateCache, $compile, $document, $timeout) {
-    var supported = {
+function shouldHide(expression, id){
+var matches = expression.match(/[\w]+|\'[\w\s]+\'/g).filter(key => !key.startsWith("'"));
+if(matches){
+ document.getElementById(id).style.display = 'none';
+}else{
+  //document.getElementById(id).display = 'none';
+  document.getElementById(id).style.display = 'none';
+}
+}
+var supported = {
         //  Text-based elements
         'text': {element: 'input', type: 'text', editable: true, textBased: true},
         'date': {element: 'input', type: 'date', editable: true, textBased: true},
@@ -51,6 +58,9 @@ angular.module('dynform', [])
         'submit': {element: 'button', type: 'submit', editable: false, textBased: false}
       };
     
+angular.module('dynform', [])
+  .directive('dynamicForm', ['$q', '$parse', '$http', '$templateCache', '$compile', '$document', '$timeout', function ($q, $parse, $http, $templateCache, $compile, $document, $timeout) {
+     
     return {
       restrict: 'E', // supports using directive as element only
       link: function ($scope, element, attrs) {
@@ -62,8 +72,10 @@ angular.module('dynform', [])
           foundOne = false,
           iterElem = element,
           model = null;
+          count = 0;
         
         //  Check that the required attributes are in place
+        
         if (angular.isDefined(attrs.ngModel) && (angular.isDefined(attrs.template) || angular.isDefined(attrs.templateUrl)) && !element.hasClass('dynamic-form')) {
           model = $parse(attrs.ngModel)($scope);
           //  Grab the template. either from the template attribute, or from the URL in templateUrl
@@ -121,6 +133,10 @@ angular.module('dynform', [])
                   newElement.attr('name', field.name ? field.name : bracket(field.model));
                   newElement.attr('id', field.id? field.id : field.name);
                   newElement.attr('ng-model', bracket(field.model, attrs.ngModel));
+                  newElement.attr('onchange', field.onchange? field.onchange : '');
+                  newElement.attr('display', field.display? field.display : '');
+                  newElement.attr('type', field.type? field.type : '');
+                  newElement.attr('ng-if', field.conditionExpression? field.conditionExpression : true);
                   // Build parent in case of a nested model
                   setProperty(model, field.model, {}, null, true);
                     
@@ -213,6 +229,7 @@ angular.module('dynform', [])
                   }
                 }
                 else if (field.type === 'select') {
+                 
                   if (angular.isDefined(field.multiple) && field.multiple !== false) {newElement.attr('multiple', 'multiple');}
                   if (angular.isDefined(field.empty) && field.empty !== false) {newElement.append(angular.element($document[0].createElement('option')).attr('value', '').html(field.empty));}
                   
@@ -220,6 +237,8 @@ angular.module('dynform', [])
                     newElement.attr('ng-options', field.autoOptions);
                   }
                   else if (angular.isDefined(field.options)) {
+                    //ng-init="somethingHere = somethingHere || options[0].value"
+
                     angular.forEach(field.options, function (option, childId) {
                       newChild = angular.element($document[0].createElement('option'));
                       newChild.attr('value', childId);
@@ -244,6 +263,8 @@ angular.module('dynform', [])
                       });
                       optGroups = {};
                     }
+
+
                   }
                 }
                 else if (field.type === 'image') {
@@ -307,8 +328,9 @@ angular.module('dynform', [])
                   }
                   //  Everything else should be wrapped in a label tag.
                   else {
-                    newElement = newElement.wrap('<label></label>').parent();
-                    newElement.prepend(document.createTextNode(field.label + ' '));
+                      newElement = newElement.wrap("<label></label>").parent();
+                      newElement.prepend(document.createTextNode(field.label + ' '));
+                      newElement.attr('ng-if', field.conditionExpression? field.conditionExpression : true);                    
                   }
                 }
                 
@@ -354,27 +376,28 @@ angular.module('dynform', [])
             newElement.addClass('dynamic-form');
             newElement.append(element.contents());
             
-            //  onReset logic
-            newElement.data('$_cleanModel', angular.copy(model));
-            newElement.bind('reset', function () {
-              $timeout(function () {
-                $scope.$broadcast('reset', arguments);
-              }, 0);
-            });
-            $scope.$on('reset', function () {
-              $scope.$apply(function () {
-                $scope[attrs.ngModel] = {};
-              });
-              $scope.$apply(function () {
-                $scope[attrs.ngModel] = angular.copy(newElement.data('$_cleanModel'));
-              });
-            });
+            // //  onReset logic
+            // newElement.data('$_cleanModel', angular.copy(model));
+            // newElement.bind('reset', function () {
+            //   $timeout(function () {
+            //     $scope.$broadcast('reset', arguments);
+            //   }, 0);
+            // });
+            // $scope.$on('reset', function () {
+            //   $scope.$apply(function () {
+            //     $scope[attrs.ngModel] = {};
+            //   });
+            //   $scope.$apply(function () {
+            //     $scope[attrs.ngModel] = angular.copy(newElement.data('$_cleanModel'));
+            //   });
+            // });
             
             //  Compile and update DOM
             $compile(newElement)($scope);
             element.replaceWith(newElement);
           });
         }
+         count++;
       }
     };
   }])
