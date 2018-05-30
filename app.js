@@ -5,8 +5,8 @@ app.controller("buildTemplate", function($scope) {
   $scope.inputElements = [];
 
       $scope.formData = {};   // JavaScript needs an object to put our form's models into.
-   var testClassObj = new testClass(); 
-  $scope.formTemplate = testClassObj.templateFields;  
+  // var testClassObj = new testClass(); 
+  $scope.formTemplate = obj.templateFields;  
   $scope.processForm = function () {
   
       /* Handle the form submission... */
