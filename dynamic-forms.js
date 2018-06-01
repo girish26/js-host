@@ -14,15 +14,7 @@
 * @param {Object} ngModel - An object in the current scope where the form data should be stored.
 * @example <dynamic-form template-url="form-template.js" ng-model="formData"></dynamic-form>
 */
-function shouldHide(expression, id){
-var matches = expression.match(/[\w]+|\'[\w\s]+\'/g).filter(key => !key.startsWith("'"));
-if(matches){
- document.getElementById(id).style.display = 'none';
-}else{
-  //document.getElementById(id).display = 'none';
-  document.getElementById(id).style.display = 'none';
-}
-}
+
 var supported = {
         //  Text-based elements
         'text': {element: 'input', type: 'text', editable: true, textBased: true},
@@ -55,9 +47,10 @@ var supported = {
         'image': {element: 'input', type: 'image', editable: false, textBased: false},
         'legend': {element: 'legend', editable: false, textBased: false},
         'reset': {element: 'button', type: 'reset', editable: false, textBased: false},
-        'submit': {element: 'button', type: 'submit', editable: false, textBased: false}
+        'submit': {element: 'button', type: 'submit', editable: false, textBased: false},
+        'accordion':{element:'div', editable: false, textBased: false}
       };
-    
+              
 angular.module('dynform', [])
   .directive('dynamicForm', ['$q', '$parse', '$http', '$templateCache', '$compile', '$document', '$timeout', function ($q, $parse, $http, $templateCache, $compile, $document, $timeout) {
      
@@ -73,7 +66,8 @@ angular.module('dynform', [])
           iterElem = element,
           model = null;
           count = 0;
-        
+          data = null;
+          
         //  Check that the required attributes are in place
         
         if (angular.isDefined(attrs.ngModel) && (angular.isDefined(attrs.template) || angular.isDefined(attrs.templateUrl)) && !element.hasClass('dynamic-form')) {
@@ -114,6 +108,7 @@ angular.module('dynform', [])
                   newElement.attr(attr, val);
                 });
                 this.append(newElement);
+                
                 newElement = null;
               }
               else {
@@ -121,8 +116,14 @@ angular.module('dynform', [])
                 if (!angular.isDefined(field.model)) {
                   field.model = id;
                 }
+              
                 
-                newElement = angular.element($document[0].createElement(supported[field.type].element));
+             // newElement =angular.element($document[0].createElement('div')).attr('class','expandcollapse-item');
+                 newElement = angular.element($document[0].createElement(supported[field.type].element));
+               //  newElement.append(newChild);
+               
+                // newChild = angular.element($document[0].createElement(supported[field.type].element));
+                // newElement.append(newChild);
                 if (angular.isDefined(supported[field.type].type)) {
                   newElement.attr('type', supported[field.type].type);
                 }
@@ -133,10 +134,12 @@ angular.module('dynform', [])
                   newElement.attr('name', field.name ? field.name : bracket(field.model));
                   newElement.attr('id', field.id? field.id : field.name);
                   newElement.attr('ng-model', bracket(field.model, attrs.ngModel));
-                  newElement.attr('onchange', field.onchange? field.onchange : '');
-                  newElement.attr('display', field.display? field.display : '');
+               //   newElement.attr('onchange', field.onchange? field.onchange : '');
+                //  newElement.attr('display', field.display? field.display : '');
                   newElement.attr('type', field.type? field.type : '');
                   newElement.attr('ng-if', field.conditionExpression? field.conditionExpression : true);
+                 // newElement.attr('ng-class', '"{\'expandcollapse-heading-collapsed\': active, \'expandcollapse-heading-expanded\': !active}"');
+                  //newElement.attr('ng-click', 'active=!active');
                   // Build parent in case of a nested model
                   setProperty(model, field.model, {}, null, true);
                     
@@ -340,23 +343,51 @@ angular.module('dynform', [])
                     newElement.attr(attr, val);
                   });
                 }
-                
-                // Add the element to the page
-                this.append(newElement);
-                newElement = null;
+              
+                if(field.type == 'accordion'){
+                   var conditionExpression = ''+ "" + field.conditionExpression?field.conditionExpression:true + "" +'';      
+                  var collapseItem = angular.element('<div class="expandcollapse-item" ng-if = "'+conditionExpression+'">');
+                  this.append(collapseItem);
+
+                  var temp = this.children();
+                  var clickCbString = 'setActiveIndex('+ "" + id + "" +')';                     
+                  newChild = angular.element('<div ng-click='+ clickCbString +'  ng-class="{\'expandcollapse-heading-collapsed\': '+id+', \'expandcollapse-heading-expanded\': !'+id+'}">');
+                  temp.append(newChild);
+                  this.append('</div>');
+
+                  var pTag = temp.children();
+                  newChild = angular.element('<p class="marcom-accordion">'+field.name+'</p>'); 
+                  pTag.append(newChild);
+
+                  var slideDown = collapseItem.children();
+                  newChild = angular.element('<div class="slideDown ng-hide" ng-hide="activeIndex != '+id+'">'); 
+                  temp.append(newChild);
+                  
+                  data = temp.children();
+                  newChild = angular.element('<div class="expand-collapse-content">'); 
+                  data.append(newChild); 
+                 
+                  angular.forEach(template[id].components, buildFields, element);
+                                  
+                }else{
+                  
+                    var mainElem = data.children();
+                    mainElem.append(newElement);
+                  // this.append(newElement);
+                    newElement = null;
+                }
               }
             };
-            
-            angular.forEach(template, buildFields, element);
+
+
+                  // for(var i=0;i<template.length;i++){
+                  //     angular.forEach(template, buildFields, element);  
+                  //     angular.forEach(template[0].groups, buildFields, element);
+                  // }  
+                angular.forEach(template, buildFields, element);  
             
             //  Determine what tag name to use (ng-form if nested; form if outermost)
-            while (!angular.equals(iterElem.parent(), $document) && !angular.equals(iterElem[0], $document[0].documentElement)) {
-              if (['form','ngForm','dynamicForm'].indexOf(attrs.$normalize(angular.lowercase(iterElem.parent()[0].nodeName))) > -1) {
-                foundOne = true;
-                break;
-              }
-              iterElem = iterElem.parent();
-            }
+         
             if (foundOne) {
               newElement = angular.element($document[0].createElement('ng-form'));
             }
@@ -398,154 +429,12 @@ angular.module('dynform', [])
           });
         }
          count++;
+
+           $scope.setActiveIndex = function(id){
+                  $scope.activeIndex = $scope.activeIndex == id ? undefined : id;
+                  };
       }
     };
   }])
-  //  Not a fan of how Angular's ngList is implemented, so here's a better one (IMO).  It will ONLY
-  //  apply to <dynamic-form> child elements, and replaces the ngList that ships with Angular.
-  .directive('ngList', [function () {
-    return {
-      require: '?ngModel',
-      link: function (scope, element, attr, ctrl) {
-        var match = /\/(.*)\//.exec(element.attr(attr.$attr.ngList)),
-          separator = match && new RegExp(match[1]) || element.attr(attr.$attr.ngList) || ',';
-        
-        if (element[0].form !== null && !angular.element(element[0].form).hasClass('dynamic-form')) {
-          return;
-        }
-        
-        ctrl.$parsers.splice(0, 1);
-        ctrl.$formatters.splice(0, 1);
-        
-        ctrl.$parsers.push(function(viewValue) {
-          var list = [];
-          
-          if (angular.isString(viewValue)) {
-            //  Don't have Angular's trim() exposed, so let's simulate it:
-            if (String.prototype.trim) {
-              angular.forEach(viewValue.split(separator), function(value) {
-                if (value) list.push(value.trim());
-              });
-            }
-            else {
-              angular.forEach(viewValue.split(separator), function(value) {
-                if (value) list.push(value.replace(/^\s*/, '').replace(/\s*$/, ''));
-              });
-            }
-          }
-          
-          return list;
-        });
 
-        ctrl.$formatters.push(function(val) {
-          var joinBy = angular.isString(separator) && separator || ', ';
-          
-          if (angular.isArray(val)) {
-            return val.join(joinBy);
-          }
-          
-          return undefined;
-        });
-      }
-    };
-  }])
-  //  Following code was adapted from http://odetocode.com/blogs/scott/archive/2013/07/05/a-file-input-directive-for-angularjs.aspx
-  .directive('input', ['$parse', function ($parse) {
-    return {
-      restrict: 'E',
-      require: '?ngModel',
-      link: function (scope, element, attrs, ctrl) {
-        if (!ctrl) {
-          // Doesn't have an ng-model attribute; nothing to do here.
-          return;
-        }
-        
-        if (attrs.type === 'file') {
-          var modelGet = $parse(attrs.ngModel),
-            modelSet = modelGet.assign,
-            onChange = $parse(attrs.onChange),
-            updateModel = function () {
-              scope.$apply(function () {
-                modelSet(scope, element[0].files);
-                onChange(scope);
-              });                    
-            };
-          
-          ctrl.$render = function () {
-            element[0].files = this.$viewValue;
-          };
-          element.bind('change', updateModel);
-        }
-        else if (attrs.type === 'range') {
-          ctrl.$parsers.push(function (val) {
-            if (val) {
-              return parseFloat(val);
-            }
-          });
-        }
-      }
-    };
-  }])
-  //  Following code was adapted from http://odetocode.com/blogs/scott/archive/2013/07/03/building-a-filereader-service-for-angularjs-the-service.aspx
-  .factory('fileReader', ['$q', function ($q) {
-    var onLoad = function(reader, deferred, scope) {
-        return function () {
-          scope.$apply(function () {
-            deferred.resolve(reader.result);
-          });
-        };
-      },
-      onError = function (reader, deferred, scope) {
-        return function () {
-          scope.$apply(function () {
-            deferred.reject(reader.error);
-          });
-        };
-      },
-      onProgress = function(reader, scope) {
-        return function (event) {
-          scope.$broadcast('fileProgress',
-            {
-              total: event.total,
-              loaded: event.loaded,
-              status: reader.readyState
-            });
-        };
-      },
-      getReader = function(deferred, scope) {
-        var reader = new FileReader();
-        reader.onload = onLoad(reader, deferred, scope);
-        reader.onerror = onError(reader, deferred, scope);
-        reader.onprogress = onProgress(reader, scope);
-        return reader;
-      };
-
-    return {
-      readAsArrayBuffer: function (file, scope) {
-        var deferred = $q.defer(),
-          reader = getReader(deferred, scope);         
-        reader.readAsArrayBuffer(file);
-        return deferred.promise;
-      },
-      readAsBinaryString: function (file, scope) {
-        var deferred = $q.defer(),
-          reader = getReader(deferred, scope);         
-        reader.readAsBinaryString(file);
-        return deferred.promise;
-      },
-      readAsDataURL: function (file, scope) {
-        var deferred = $q.defer(),
-          reader = getReader(deferred, scope);         
-        reader.readAsDataURL(file);
-        return deferred.promise;
-      },
-      readAsText: function (file, scope) {
-        var deferred = $q.defer(),
-          reader = getReader(deferred, scope);         
-        reader.readAsText(file);
-        return deferred.promise;
-      }
-    };
-  }]);
-
-/*  End of dynamic-forms.js */
+ 
