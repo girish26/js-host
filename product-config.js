@@ -100,8 +100,8 @@ var templateFields = [
   {
         "type": "select",
         "label": "Include Health Plan pages?",
-        "model": "Health_Plans_LabelCell",
-        "name": "Health_Plans_LabelCell",
+        "model": "Health_Plans",
+        "name": "Health_Plans",
         "empty": "Please select",
         "options":{
           "No":{
@@ -115,10 +115,10 @@ var templateFields = [
     {
       "type": "select",
         "label": "Number of Health Plans",
-        "model": "Total_Plan_Quantity_LabelCell",
-        "name": "Total_Plan_Quantity_LabelCell",
+        "model": "Total_Plan_Quantity",
+        "name": "Total_Plan_Quantity",
         "empty": "Please select",
-         "conditionExpression":"formData.Health_Plans_LabelCell == 'Yes'",
+         "conditionExpression":"formData.Health_Plans == 'Yes'",
         "options":{
           "0":{
             "label":"0"
@@ -150,8 +150,8 @@ var templateFields = [
    {
         "type": "select",
         "label": "FSA?",
-        "model": "FSA_LabelCell",
-        "name": "FSA_LabelCell",
+        "model": "FSA",
+        "name": "FSA",
         "empty": "Please select",
 
         "options":{
@@ -170,21 +170,21 @@ var templateFields = [
   "type":"accordion",  
   "name":"Health Plan1: How the Plan Works",
   "label":"Health Plan1: How the Plan Works",
-  "conditionExpression":" formData.Total_Plan_Quantity_LabelCell > 0 && formData.Health_Plans_LabelCell == 'Yes'", 
+  "conditionExpression":" formData.Total_Plan_Quantity > 0 && formData.Health_Plans == 'Yes'", 
   "components":[
    {
         "type": "text",
         "label": "Custom Plan Name",
-        "model": "Plan_1_Custom_Name_LabelCell",
-        "name": "Plan_1_Custom_Name_LabelCell",
+        "model": "Plan_1_Custom_Name",
+        "name": "Plan_1_Custom_Name",
     },
     {
         "type": "select",
         "label": "Plan",
-        "model": "Plan_1_Name_LabelCell",
-        "name": "Plan_1_Name_LabelCell",
+        "model": "Plan_1_Name",
+        "name": "Plan_1_Name",
         "empty": "Please select",
-         "conditionExpression":"formData.Health_Plans_LabelCell == 'Yes'",
+         "conditionExpression":"formData.Health_Plans == 'Yes'",
         "options":{
           "Choice":{
             "label":"Choice"
@@ -198,8 +198,8 @@ var templateFields = [
    {
         "type": "select",
         "label": "Financial account?",
-        "model": "Plan_1_Type_LabelCell",
-        "name": "Plan_1_Type_LabelCell",
+        "model": "Plan_1_Type",
+        "name": "Plan_1_Type",
         "empty": "Please select",
         
         "options":{
@@ -218,21 +218,21 @@ var templateFields = [
   "type":"accordion",  
   "name":"Health Plan2: How the Plan Works",
   "label":"Health Plan2: How the Plan Works",
-  "conditionExpression":" formData.Total_Plan_Quantity_LabelCell > 1 && formData.Health_Plans_LabelCell == 'Yes'", 
+  "conditionExpression":" formData.Total_Plan_Quantity > 1 && formData.Health_Plans == 'Yes'", 
   "components":[
    {
         "type": "text",
         "label": "Custom Plan Name",
-        "model": "Plan_2_Custom_Name_LabelCell",
-        "name": "Plan_2_Custom_Name_LabelCell",
+        "model": "Plan_2_Custom_Name",
+        "name": "Plan_2_Custom_Name",
     },
     {
         "type": "select",
         "label": "Plan",
-        "model": "Plan_2_Name_LabelCell",
-        "name": "Plan_2_Name_LabelCell",
+        "model": "Plan_2_Name",
+        "name": "Plan_2_Name",
         "empty": "Please select",
-         "conditionExpression":"formData.Health_Plans_LabelCell == 'Yes'",
+         "conditionExpression":"formData.Health_Plans == 'Yes'",
         "options":{
           "Choice":{
             "label":"Choice"
@@ -246,8 +246,8 @@ var templateFields = [
    {
         "type": "select",
         "label": "Financial account?",
-        "model": "Plan_2_Type_LabelCell",
-        "name": "Plan_2_Type_LabelCell",
+        "model": "Plan_2_Type",
+        "name": "Plan_2_Type",
         "empty": "Please select",
         
         "options":{
@@ -266,21 +266,21 @@ var templateFields = [
   "type":"accordion",  
   "name":"Health Plan3: How the Plan Works",
   "label":"Health Plan3: How the Plan Works",
-  "conditionExpression":" formData.Total_Plan_Quantity_LabelCell > 2 && formData.Health_Plans_LabelCell == 'Yes'", 
+  "conditionExpression":" formData.Total_Plan_Quantity > 2 && formData.Health_Plans == 'Yes'", 
   "components":[
    {
         "type": "text",
         "label": "Custom Plan Name",
-        "model": "Plan_3_Custom_Name_LabelCell",
-        "name": "Plan_3_Custom_Name_LabelCell",
+        "model": "Plan_3_Custom_Name",
+        "name": "Plan_3_Custom_Name",
     },
     {
         "type": "select",
         "label": "Plan",
-        "model": "Plan_3_Name_LabelCell",
-        "name": "Plan_3_Name_LabelCell",
+        "model": "Plan_3_Name",
+        "name": "Plan_3_Name",
         "empty": "Please select",
-         "conditionExpression":"formData.Health_Plans_LabelCell == 'Yes'",
+         "conditionExpression":"formData.Health_Plans == 'Yes'",
         "options":{
           "Choice":{
             "label":"Choice"
@@ -294,8 +294,8 @@ var templateFields = [
    {
         "type": "select",
         "label": "Financial account?",
-        "model": "Plan_3_Type_LabelCell",
-        "name": "Plan_3_Type_LabelCell",
+        "model": "Plan_3_Type",
+        "name": "Plan_3_Type",
         "empty": "Please select",
         
         "options":{
@@ -314,21 +314,21 @@ var templateFields = [
   "type":"accordion",  
   "name":"Health Plan4: How the Plan Works",
   "label":"Health Plan4: How the Plan Works",
-  "conditionExpression":" formData.Total_Plan_Quantity_LabelCell > 3 && formData.Health_Plans_LabelCell == 'Yes' ", 
+  "conditionExpression":" formData.Total_Plan_Quantity > 3 && formData.Health_Plans == 'Yes' ", 
   "components":[
    {
         "type": "text",
         "label": "Custom Plan Name",
-        "model": "Plan_4_Custom_Name_LabelCell",
-        "name": "Plan_4_Custom_Name_LabelCell",
+        "model": "Plan_4_Custom_Name",
+        "name": "Plan_4_Custom_Name",
     },
     {
         "type": "select",
         "label": "Plan",
-        "model": "Plan_4_Name_LabelCell",
-        "name": "Plan_4_Name_LabelCell",
+        "model": "Plan_4_Name",
+        "name": "Plan_4_Name",
         "empty": "Please select",
-         "conditionExpression":"formData.Health_Plans_LabelCell == 'Yes'",
+         "conditionExpression":"formData.Health_Plans == 'Yes'",
         "options":{
           "Choice":{
             "label":"Choice"
@@ -342,8 +342,8 @@ var templateFields = [
    {
         "type": "select",
         "label": "Financial account?",
-        "model": "Plan_4_Type_LabelCell",
-        "name": "Plan_4_Type_LabelCell",
+        "model": "Plan_4_Type",
+        "name": "Plan_4_Type",
         "empty": "Please select",
         
         "options":{
@@ -363,21 +363,21 @@ var templateFields = [
   "type":"accordion",  
   "name":"Health Plan5: How the Plan Works",
   "label":"Health Plan5: How the Plan Works",
-  "conditionExpression":" formData.Total_Plan_Quantity_LabelCell > 4 && formData.Health_Plans_LabelCell == 'Yes' ", 
+  "conditionExpression":" formData.Total_Plan_Quantity > 4 && formData.Health_Plans == 'Yes' ", 
   "components":[
    {
         "type": "text",
         "label": "Custom Plan Name",
-        "model": "Plan_5_Custom_Name_LabelCell",
-        "name": "Plan_5_Custom_Name_LabelCell",
+        "model": "Plan_5_Custom_Name",
+        "name": "Plan_5_Custom_Name",
     },
     {
         "type": "select",
         "label": "Plan",
-        "model": "Plan_5_Name_LabelCell",
-        "name": "Plan_5_Name_LabelCell",
+        "model": "Plan_5_Name",
+        "name": "Plan_5_Name",
         "empty": "Please select",
-         "conditionExpression":"formData.Health_Plans_LabelCell == 'Yes' ",
+         "conditionExpression":"formData.Health_Plans == 'Yes' ",
         "options":{
           "Choice":{
             "label":"Choice"
@@ -391,8 +391,8 @@ var templateFields = [
    {
         "type": "select",
         "label": "Financial account?",
-        "model": "Plan_5_Type_LabelCell",
-        "name": "Plan_5_Type_LabelCell",
+        "model": "Plan_5_Type",
+        "name": "Plan_5_Type",
         "empty": "Please select",
         
         "options":{
@@ -412,21 +412,21 @@ var templateFields = [
   "type":"accordion",  
   "name":"Health Plan6: How the Plan Works",
   "label":"Health Plan6: How the Plan Works",
-  "conditionExpression":" formData.Total_Plan_Quantity_LabelCell > 5 && formData.Health_Plans_LabelCell == 'Yes'", 
+  "conditionExpression":" formData.Total_Plan_Quantity > 5 && formData.Health_Plans == 'Yes'", 
   "components":[
    {
         "type": "text",
         "label": "Custom Plan Name",
-        "model": "Plan_6_Custom_Name_LabelCell",
-        "name": "Plan_6_Custom_Name_LabelCell",
+        "model": "Plan_6_Custom_Name",
+        "name": "Plan_6_Custom_Name",
     },
     {
         "type": "select",
         "label": "Plan",
-        "model": "Plan_6_Name_LabelCell",
-        "name": "Plan_6_Name_LabelCell",
+        "model": "Plan_6_Name",
+        "name": "Plan_6_Name",
         "empty": "Please select",
-         "conditionExpression":"formData.Health_Plans_LabelCell == 'Yes'",
+         "conditionExpression":"formData.Health_Plans == 'Yes'",
         "options":{
           "Choice":{
             "label":"Choice"
@@ -440,8 +440,8 @@ var templateFields = [
    {
         "type": "select",
         "label": "Financial account?",
-        "model": "Plan_6_Type_LabelCell",
-        "name": "Plan_6_Type_LabelCell",
+        "model": "Plan_6_Type",
+        "name": "Plan_6_Type",
         "empty": "Please select",
         
         "options":{
@@ -461,21 +461,21 @@ var templateFields = [
   "type":"accordion",  
   "name":"Health Plan7: How the Plan Works",
   "label":"Health Plan7: How the Plan Works",
-  "conditionExpression":" formData.Total_Plan_Quantity_LabelCell > 6 && formData.Health_Plans_LabelCell == 'Yes'", 
+  "conditionExpression":" formData.Total_Plan_Quantity > 6 && formData.Health_Plans == 'Yes'", 
   "components":[
    {
         "type": "text",
         "label": "Custom Plan Name",
-        "model": "Plan_7_Custom_Name_LabelCell",
-        "name": "Plan_7_Custom_Name_LabelCell",
+        "model": "Plan_7_Custom_Name",
+        "name": "Plan_7_Custom_Name",
     },
     {
         "type": "select",
         "label": "Plan",
-        "model": "Plan_7_Name_LabelCell",
-        "name": "Plan_7_Name_LabelCell",
+        "model": "Plan_7_Name",
+        "name": "Plan_7_Name",
         "empty": "Please select",
-         "conditionExpression":"formData.Health_Plans_LabelCell == 'Yes'",
+         "conditionExpression":"formData.Health_Plans == 'Yes'",
         "options":{
           "Choice":{
             "label":"Choice"
@@ -489,8 +489,8 @@ var templateFields = [
    {
         "type": "select",
         "label": "Financial account?",
-        "model": "Plan_7_Type_LabelCell",
-        "name": "Plan_7_Type_LabelCell",
+        "model": "Plan_7_Type",
+        "name": "Plan_7_Type",
         "empty": "Please select",
         
         "options":{
