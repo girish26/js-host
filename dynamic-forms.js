@@ -67,7 +67,7 @@ angular.module('dynform', [])
           model = null;
           count = 0;
           data = null;
-          
+          collapseItem = null;
         //  Check that the required attributes are in place
         
         if (angular.isDefined(attrs.ngModel) && (angular.isDefined(attrs.template) || angular.isDefined(attrs.templateUrl)) && !element.hasClass('dynamic-form')) {
@@ -345,35 +345,42 @@ angular.module('dynform', [])
                 }
               
                 if(field.type == 'accordion'){
-                   var conditionExpression = ''+ "" + field.conditionExpression?field.conditionExpression:true + "" +'';      
-                  var collapseItem = angular.element('<div class="expandcollapse-item" ng-if = "'+conditionExpression+'">');
+                   var conditionExpression = ''+ "" + field.conditionExpression?field.conditionExpression:true + "" +'';     
+                   var clickCbString = 'setActiveIndex('+ "" + id + "" +')';     
+                  collapseItem = angular.element('<div class="expandcollapse-item" ng-if = "'+conditionExpression+'">'+
+                  '<div ng-click='+ clickCbString +'  ng-class="{\'expandcollapse-heading-collapsed\': '+id+', \'expandcollapse-heading-expanded\': !'+id+'}">'
+                +'<p class="marcom-accordion">'+field.name+'</p></div>'
+              +'<div class="slideDown ng-hide" ng-hide="activeIndex != '+id+'">'
+            +'<div class="expand-collapse-content"></div></div></div>');
                   this.append(collapseItem);
 
-                  var temp = this.children();
-                  var clickCbString = 'setActiveIndex('+ "" + id + "" +')';                     
-                  newChild = angular.element('<div ng-click='+ clickCbString +'  ng-class="{\'expandcollapse-heading-collapsed\': '+id+', \'expandcollapse-heading-expanded\': !'+id+'}">');
-                  temp.append(newChild);
-                  this.append('</div>');
+                  //var temp = this.children();
+                                  
+                //  newChild = angular.element('<div ng-click='+ clickCbString +'  ng-class="{\'expandcollapse-heading-collapsed\': '+id+', \'expandcollapse-heading-expanded\': !'+id+'}">');
+                  //temp.append(newChild);
+                  //this.append('</div>');
 
-                  var pTag = temp.children();
-                  newChild = angular.element('<p class="marcom-accordion">'+field.name+'</p>'); 
-                  pTag.append(newChild);
+                  // var pTag = temp.children();
+                  // newChild = angular.element('<p class="marcom-accordion">'+field.name+'</p>'); 
+                  // pTag.append(newChild);
 
-                  var slideDown = collapseItem.children();
-                  newChild = angular.element('<div class="slideDown ng-hide" ng-hide="activeIndex != '+id+'">'); 
-                  temp.append(newChild);
+                  // var slideDown = collapseItem.children();
+                  // newChild = angular.element('<div class="slideDown ng-hide" ng-hide="activeIndex != '+id+'">'); 
+                  // temp.append(newChild);
                   
-                  data = temp.children();
-                  newChild = angular.element('<div class="expand-collapse-content">'); 
-                  data.append(newChild); 
+                  // data = temp.children();
+                  // newChild = angular.element('<div class="expand-collapse-content">'); 
+                  // data.append(newChild); 
                  
                   angular.forEach(template[id].components, buildFields, element);
                                   
                 }else{
-                  
-                    var mainElem = data.children();
-                    mainElem.append(newElement);
-                  // this.append(newElement);
+                 
+                    var mainElem = angular.element(collapseItem.children().children()[1]);
+                   // (mainElem).append(newElement);
+                  // $(collapseItem+":last-child").append(newElement);
+                  console.log(mainElem);
+                  mainElem.append(newElement);
                     newElement = null;
                 }
               }
