@@ -13,8 +13,8 @@
 }
 
 label{
-    width: 200px;
-    text-align: right;
+    width: 490px;
+    text-align: left;
     display: inline-block;
 }
 
@@ -23,7 +23,7 @@ label{
     color: #444;
     cursor: pointer;
     padding: 18px;
-    width: 100%;
+    width: 200%;
     border: none;
     text-align: left;
     outline: none;
