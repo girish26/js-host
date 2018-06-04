@@ -5,21 +5,20 @@ var templateFields = [
   "name":"General Information to Help Build Your Brochur",
   "conditionExpression":"true",
   "components":[
-  {
+   {
         "type": "text",
         "label": "Company Name",
         "model": "Company_Name",
         "name": "Company_Name",
-        "conditionExpression":" formData.Union_Audience == 'Union' ",      
+       
     },
-    
     {
     "type": "select",
     "model": "Funding_Type",
     "label": "Funding Type",
     "name": "Funding_Type",
     "empty": "Please select",
-    "conditionExpression":"formData.Company_Name",
+  
   
     "options": {
       "ASO": {
@@ -36,7 +35,7 @@ var templateFields = [
     "label": "Is your customer located in one or both of the following states?",
     "name": "Funding_Type_Follow_Up",
      "empty": "Please select",
-    "conditionExpression":"(formData.Funding_Type == 'ASO' && formData.Company_Name) || formData.Funding_Type == 'Fully Insured' ",
+    
     "options": {
       "Neither": {
         "label": "Neither"
@@ -58,7 +57,7 @@ var templateFields = [
     "label": "Line of Buisness",
     "name": "Line_of_Business",
      "empty": "Please select",
-     "conditionExpression":"formData.Funding_Type_Follow_Up == 'Illinois'",
+     
     "options": {
       "National Accounts": {
         "label": "National Accounts"
@@ -94,8 +93,8 @@ var templateFields = [
 {
   "type":"accordion",  
   "name":"Product",
-  "label":"test accordion11",
-  "conditionExpression":" formData.Union_Audience == 'Union' ", 
+  "label":"Product",
+   "conditionExpression":"true",
   "components":[
   {
         "type": "select",
@@ -153,7 +152,7 @@ var templateFields = [
         "model": "FSA",
         "name": "FSA",
         "empty": "Please select",
-
+        
         "options":{
           "No":{
             "label":"No"
@@ -163,7 +162,71 @@ var templateFields = [
           }
         }  
   },  
-  
+    {
+        "type": "text",
+        "label": "Field 1",
+        "model": "Table_Header_1",
+        "name": "Table_Header_1",
+        "defaultValue": "EE",
+         "conditionExpression":"formData.Health_Plans == 'Yes'"
+    },   
+     {
+        "type": "text",
+        "label": "Field 2",
+        "model": "Table_Header_2",
+        "name": "Table_Header_2",
+        "defaultValue": "EE+1",
+         "conditionExpression":"formData.Health_Plans == 'Yes'"
+       
+    }, 
+       {
+        "type": "text",
+        "label": "Field 3",
+        "model": "Table_Header_3",
+        "name": "Table_Header_3",
+        "defaultValue": "EE+Children",
+         "conditionExpression":"formData.Health_Plans == 'Yes'"
+       
+    }, 
+       {
+        "type": "text",
+        "label": "Field 4",
+        "model": "Table_Header_4",
+        "name": "Table_Header_4",
+        "defaultValue": "Family",
+         "conditionExpression":"formData.Health_Plans == 'Yes'"
+       
+    },
+     {
+        "type": "select",
+        "label": "Does your customer have OptumRx?",
+        "model": "Optum_Rx",
+        "name": "Optum_Rx",
+         "conditionExpression":"formData.Health_Plans == 'Yes'",
+        "options":{
+          "No":{
+            "label":"No"
+          },
+          "Yes":{
+            "label":"Yes"
+          }
+        }  
+  },
+   {
+        "type": "select",
+        "label": "Does your customer have Virtual Visits?",
+        "model": "Virtual_Visits",
+        "name": "Virtual_Visits",
+        "conditionExpression":"formData.Health_Plans == 'Yes'",
+        "options":{
+          "No":{
+            "label":"No"
+          },
+          "Yes":{
+            "label":"Yes"
+          }
+        }  
+  }     
   ]
 },
 {
@@ -211,7 +274,90 @@ var templateFields = [
           }
         }  
   },  
-  
+   {
+        "type": "text",
+        "label": "EE",
+        "model": "Plan_1_HSA_EmployerContribution_EE",
+        "name": "Plan_1_HSA_EmployerContribution_EE",
+        "conditionExpression":"formData.Plan_1_Type == 'with HSA'"
+    },
+      {
+        "type": "text",
+        "label": "EE + 1",
+        "model": "Plan_1_HSA_EmployerContribution_EEPlusOne",
+        "name": "Plan_1_HSA_EmployerContribution_EEPlusOne",
+        "conditionExpression":"formData.Plan_1_Type == 'with HSA'"
+    },
+       {
+        "type": "text",
+        "label": "EE + Children",
+        "model": "Plan_1_HSA_EmployerContribution_EEPlusChild",
+        "name": "Plan_1_HSA_EmployerContribution_EEPlusChild",
+        "conditionExpression":"formData.Plan_1_Type == 'with HSA'"
+    },
+       {
+        "type": "text",
+        "label": "Family",
+        "model": "Plan_1_HSA_EmployerContribution_Family",
+        "name": "Plan_1_HSA_EmployerContribution_Family",
+        "conditionExpression":"formData.Plan_1_Type == 'with HSA'"
+    },
+        {
+        "type": "select",
+        "label": "Cost Share",
+        "model": "Plan_1_HSA_Plan_Type",
+        "name": "Plan_1_HSA_Plan_Type",
+      "conditionExpression":"formData.Plan_1_Type == 'with HSA'",
+       "options":{
+          "Coinsurance after Deductible":{
+            "label":"Coinsurance after Deductible"
+          },
+          "Copayment after Deductible":{
+            "label":"Copayment after Deductible"
+          }
+        }  
+  },
+       {
+        "type": "text",
+        "label": "Plan Pays %",
+        "model": "Plan_1_HSA_PlanPays_Amount",
+        "name": "Plan_1_HSA_PlanPays_Amount",
+        "conditionExpression":"formData.Plan_1_Type == 'with HSA' && formData.Plan_1_HSA_Plan_Type != 'Copayment after Deductible'"
+    },
+    {
+        "type": "text",
+        "label": "You Pay %",
+        "model": "Plan_1_HSA_YouPay_Amount",
+        "name": "Plan_1_HSA_YouPay_Amount",
+        "conditionExpression":"formData.Plan_1_Type == 'with HSA'"
+    },
+      {
+        "type": "select",
+        "label": "Year for IRS Guidelines",
+        "model": "Plan_1_HSA_PlanYear",
+        "name": "Plan_1_HSA_PlanYear",
+        "conditionExpression":"formData.Plan_1_Type == 'with HSA'",
+       "options":{
+          "2018":{
+            "label":"2018"
+          }
+        }  
+  },
+       {
+        "type": "select",
+        "label": "Offer Optum Bank?",
+        "model": "Plan_1_HSA_OptumBank",
+        "name": "Plan_1_HSA_OptumBank",
+      "conditionExpression":"formData.Plan_1_Type == 'with HSA'",
+       "options":{
+          "No":{
+            "label":"No"
+          },
+          "Yes":{
+            "label":"Yes"
+          }
+        }  
+  }
   ]
 },
 {
@@ -259,7 +405,90 @@ var templateFields = [
           }
         }  
   },  
-  
+   {
+        "type": "text",
+        "label": "EE",
+        "model": "Plan_2_HSA_EmployerContribution_EE",
+        "name": "Plan_2_HSA_EmployerContribution_EE",
+        "conditionExpression":"formData.Plan_2_Type == 'with HSA'"
+    },
+      {
+        "type": "text",
+        "label": "EE + 1",
+        "model": "Plan_2_HSA_EmployerContribution_EEPlusOne",
+        "name": "Plan_2_HSA_EmployerContribution_EEPlusOne",
+        "conditionExpression":"formData.Plan_2_Type == 'with HSA'"
+    },
+       {
+        "type": "text",
+        "label": "EE + Children",
+        "model": "Plan_2_HSA_EmployerContribution_EEPlusChild",
+        "name": "Plan_2_HSA_EmployerContribution_EEPlusChild",
+        "conditionExpression":"formData.Plan_2_Type == 'with HSA'"
+    },
+       {
+        "type": "text",
+        "label": "Family",
+        "model": "Plan_2_HSA_EmployerContribution_Family",
+        "name": "Plan_2_HSA_EmployerContribution_Family",
+        "conditionExpression":"formData.Plan_2_Type == 'with HSA'"
+    },
+        {
+        "type": "select",
+        "label": "Cost Share",
+        "model": "Plan_2_HSA_Plan_Type",
+        "name": "Plan_2_HSA_Plan_Type",
+      "conditionExpression":"formData.Plan_2_Type == 'with HSA'",
+       "options":{
+          "Coinsurance after Deductible":{
+            "label":"Coinsurance after Deductible"
+          },
+          "Copayment after Deductible":{
+            "label":"Copayment after Deductible"
+          }
+        }  
+  },
+       {
+        "type": "text",
+        "label": "Plan Pays %",
+        "model": "Plan_2_HSA_PlanPays_Amount",
+        "name": "Plan_2_HSA_PlanPays_Amount",
+        "conditionExpression":"formData.Plan_2_Type == 'with HSA' && formData.Plan_2_HSA_Plan_Type != 'Copayment after Deductible'"
+    },
+    {
+        "type": "text",
+        "label": "You Pay %",
+        "model": "Plan_2_HSA_YouPay_Amount",
+        "name": "Plan_2_HSA_YouPay_Amount",
+        "conditionExpression":"formData.Plan_2_Type == 'with HSA'"
+    },
+      {
+        "type": "select",
+        "label": "Year for IRS Guidelines",
+        "model": "Plan_2_HSA_PlanYear",
+        "name": "Plan_2_HSA_PlanYear",
+        "conditionExpression":"formData.Plan_2_Type == 'with HSA'",
+       "options":{
+          "2018":{
+            "label":"2018"
+          }
+        }  
+  },
+       {
+        "type": "select",
+        "label": "Offer Optum Bank?",
+        "model": "Plan_2_HSA_OptumBank",
+        "name": "Plan_2_HSA_OptumBank",
+      "conditionExpression":"formData.Plan_2_Type == 'with HSA'",
+       "options":{
+          "No":{
+            "label":"No"
+          },
+          "Yes":{
+            "label":"Yes"
+          }
+        }  
+  }
   ]
 },
 {
@@ -304,6 +533,90 @@ var templateFields = [
           },
           "with HSA":{
             "label":"with HSA"
+          }
+        }  
+  },
+       {
+        "type": "text",
+        "label": "EE",
+        "model": "Plan_3_HSA_EmployerContribution_EE",
+        "name": "Plan_3_HSA_EmployerContribution_EE",
+        "conditionExpression":"formData.Plan_3_Type == 'with HSA'"
+    },
+      {
+        "type": "text",
+        "label": "EE + 1",
+        "model": "Plan_3_HSA_EmployerContribution_EEPlusOne",
+        "name": "Plan_3_HSA_EmployerContribution_EEPlusOne",
+        "conditionExpression":"formData.Plan_3_Type == 'with HSA'"
+    },
+       {
+        "type": "text",
+        "label": "EE + Children",
+        "model": "Plan_3_HSA_EmployerContribution_EEPlusChild",
+        "name": "Plan_3_HSA_EmployerContribution_EEPlusChild",
+        "conditionExpression":"formData.Plan_3_Type == 'with HSA'"
+    },
+       {
+        "type": "text",
+        "label": "Family",
+        "model": "Plan_3_HSA_EmployerContribution_Family",
+        "name": "Plan_3_HSA_EmployerContribution_Family",
+        "conditionExpression":"formData.Plan_3_Type == 'with HSA'"
+    },
+        {
+        "type": "select",
+        "label": "Cost Share",
+        "model": "Plan_3_HSA_Plan_Type",
+        "name": "Plan_3_HSA_Plan_Type",
+      "conditionExpression":"formData.Plan_3_Type == 'with HSA'",
+       "options":{
+          "Coinsurance after Deductible":{
+            "label":"Coinsurance after Deductible"
+          },
+          "Copayment after Deductible":{
+            "label":"Copayment after Deductible"
+          }
+        }  
+  },
+       {
+        "type": "text",
+        "label": "Plan Pays %",
+        "model": "Plan_3_HSA_PlanPays_Amount",
+        "name": "Plan_3_HSA_PlanPays_Amount",
+        "conditionExpression":"formData.Plan_3_Type == 'with HSA' && formData.Plan_3_HSA_Plan_Type != 'Copayment after Deductible'"
+    },
+    {
+        "type": "text",
+        "label": "You Pay %",
+        "model": "Plan_3_HSA_YouPay_Amount",
+        "name": "Plan_3_HSA_YouPay_Amount",
+        "conditionExpression":"formData.Plan_3_Type == 'with HSA'"
+    },
+      {
+        "type": "select",
+        "label": "Year for IRS Guidelines",
+        "model": "Plan_3_HSA_PlanYear",
+        "name": "Plan_3_HSA_PlanYear",
+        "conditionExpression":"formData.Plan_3_Type == 'with HSA'",
+       "options":{
+          "2018":{
+            "label":"2018"
+          }
+        }  
+  },
+       {
+        "type": "select",
+        "label": "Offer Optum Bank?",
+        "model": "Plan_3_HSA_OptumBank",
+        "name": "Plan_3_HSA_OptumBank",
+      "conditionExpression":"formData.Plan_3_Type == 'with HSA'",
+       "options":{
+          "No":{
+            "label":"No"
+          },
+          "Yes":{
+            "label":"Yes"
           }
         }  
   }
@@ -352,6 +665,90 @@ var templateFields = [
           },
           "with HSA":{
             "label":"with HSA"
+          }
+        }  
+  },
+       {
+        "type": "text",
+        "label": "EE",
+        "model": "Plan_4_HSA_EmployerContribution_EE",
+        "name": "Plan_4_HSA_EmployerContribution_EE",
+        "conditionExpression":"formData.Plan_4_Type == 'with HSA'"
+    },
+      {
+        "type": "text",
+        "label": "EE + 1",
+        "model": "Plan_4_HSA_EmployerContribution_EEPlusOne",
+        "name": "Plan_4_HSA_EmployerContribution_EEPlusOne",
+        "conditionExpression":"formData.Plan_4_Type == 'with HSA'"
+    },
+       {
+        "type": "text",
+        "label": "EE + Children",
+        "model": "Plan_4_HSA_EmployerContribution_EEPlusChild",
+        "name": "Plan_4_HSA_EmployerContribution_EEPlusChild",
+        "conditionExpression":"formData.Plan_4_Type == 'with HSA'"
+    },
+       {
+        "type": "text",
+        "label": "Family",
+        "model": "Plan_4_HSA_EmployerContribution_Family",
+        "name": "Plan_4_HSA_EmployerContribution_Family",
+        "conditionExpression":"formData.Plan_4_Type == 'with HSA'"
+    },
+        {
+        "type": "select",
+        "label": "Cost Share",
+        "model": "Plan_4_HSA_Plan_Type",
+        "name": "Plan_4_HSA_Plan_Type",
+      "conditionExpression":"formData.Plan_4_Type == 'with HSA'",
+       "options":{
+          "Coinsurance after Deductible":{
+            "label":"Coinsurance after Deductible"
+          },
+          "Copayment after Deductible":{
+            "label":"Copayment after Deductible"
+          }
+        }  
+  },
+       {
+        "type": "text",
+        "label": "Plan Pays %",
+        "model": "Plan_4_HSA_PlanPays_Amount",
+        "name": "Plan_4_HSA_PlanPays_Amount",
+        "conditionExpression":"formData.Plan_4_Type == 'with HSA' && formData.Plan_4_HSA_Plan_Type != 'Copayment after Deductible'"
+    },
+    {
+        "type": "text",
+        "label": "You Pay %",
+        "model": "Plan_4_HSA_YouPay_Amount",
+        "name": "Plan_4_HSA_YouPay_Amount",
+        "conditionExpression":"formData.Plan_4_Type == 'with HSA'"
+    },
+      {
+        "type": "select",
+        "label": "Year for IRS Guidelines",
+        "model": "Plan_4_HSA_PlanYear",
+        "name": "Plan_4_HSA_PlanYear",
+        "conditionExpression":"formData.Plan_4_Type == 'with HSA'",
+       "options":{
+          "2018":{
+            "label":"2018"
+          }
+        }  
+  },
+       {
+        "type": "select",
+        "label": "Offer Optum Bank?",
+        "model": "Plan_4_HSA_OptumBank",
+        "name": "Plan_4_HSA_OptumBank",
+      "conditionExpression":"formData.Plan_4_Type == 'with HSA'",
+       "options":{
+          "No":{
+            "label":"No"
+          },
+          "Yes":{
+            "label":"Yes"
           }
         }  
   }
@@ -403,6 +800,90 @@ var templateFields = [
             "label":"with HSA"
           }
         }  
+  },
+       {
+        "type": "text",
+        "label": "EE",
+        "model": "Plan_5_HSA_EmployerContribution_EE",
+        "name": "Plan_5_HSA_EmployerContribution_EE",
+        "conditionExpression":"formData.Plan_5_Type == 'with HSA'"
+    },
+      {
+        "type": "text",
+        "label": "EE + 1",
+        "model": "Plan_5_HSA_EmployerContribution_EEPlusOne",
+        "name": "Plan_5_HSA_EmployerContribution_EEPlusOne",
+        "conditionExpression":"formData.Plan_5_Type == 'with HSA'"
+    },
+       {
+        "type": "text",
+        "label": "EE + Children",
+        "model": "Plan_5_HSA_EmployerContribution_EEPlusChild",
+        "name": "Plan_5_HSA_EmployerContribution_EEPlusChild",
+        "conditionExpression":"formData.Plan_5_Type == 'with HSA'"
+    },
+       {
+        "type": "text",
+        "label": "Family",
+        "model": "Plan_5_HSA_EmployerContribution_Family",
+        "name": "Plan_5_HSA_EmployerContribution_Family",
+        "conditionExpression":"formData.Plan_5_Type == 'with HSA'"
+    },
+        {
+        "type": "select",
+        "label": "Cost Share",
+        "model": "Plan_5_HSA_Plan_Type",
+        "name": "Plan_5_HSA_Plan_Type",
+      "conditionExpression":"formData.Plan_5_Type == 'with HSA'",
+       "options":{
+          "Coinsurance after Deductible":{
+            "label":"Coinsurance after Deductible"
+          },
+          "Copayment after Deductible":{
+            "label":"Copayment after Deductible"
+          }
+        }  
+  },
+       {
+        "type": "text",
+        "label": "Plan Pays %",
+        "model": "Plan_5_HSA_PlanPays_Amount",
+        "name": "Plan_5_HSA_PlanPays_Amount",
+        "conditionExpression":"formData.Plan_5_Type == 'with HSA' && formData.Plan_5_HSA_Plan_Type != 'Copayment after Deductible'"
+    },
+    {
+        "type": "text",
+        "label": "You Pay %",
+        "model": "Plan_5_HSA_YouPay_Amount",
+        "name": "Plan_5_HSA_YouPay_Amount",
+        "conditionExpression":"formData.Plan_5_Type == 'with HSA'"
+    },
+      {
+        "type": "select",
+        "label": "Year for IRS Guidelines",
+        "model": "Plan_5_HSA_PlanYear",
+        "name": "Plan_5_HSA_PlanYear",
+        "conditionExpression":"formData.Plan_5_Type == 'with HSA'",
+       "options":{
+          "2018":{
+            "label":"2018"
+          }
+        }  
+  },
+       {
+        "type": "select",
+        "label": "Offer Optum Bank?",
+        "model": "Plan_5_HSA_OptumBank",
+        "name": "Plan_5_HSA_OptumBank",
+      "conditionExpression":"formData.Plan_5_Type == 'with HSA'",
+       "options":{
+          "No":{
+            "label":"No"
+          },
+          "Yes":{
+            "label":"Yes"
+          }
+        }  
   }
   
   ]
@@ -452,6 +933,90 @@ var templateFields = [
             "label":"with HSA"
           }
         }  
+  },
+       {
+        "type": "text",
+        "label": "EE",
+        "model": "Plan_6_HSA_EmployerContribution_EE",
+        "name": "Plan_6_HSA_EmployerContribution_EE",
+        "conditionExpression":"formData.Plan_6_Type == 'with HSA'"
+    },
+      {
+        "type": "text",
+        "label": "EE + 1",
+        "model": "Plan_6_HSA_EmployerContribution_EEPlusOne",
+        "name": "Plan_6_HSA_EmployerContribution_EEPlusOne",
+        "conditionExpression":"formData.Plan_6_Type == 'with HSA'"
+    },
+       {
+        "type": "text",
+        "label": "EE + Children",
+        "model": "Plan_6_HSA_EmployerContribution_EEPlusChild",
+        "name": "Plan_6_HSA_EmployerContribution_EEPlusChild",
+        "conditionExpression":"formData.Plan_6_Type == 'with HSA'"
+    },
+       {
+        "type": "text",
+        "label": "Family",
+        "model": "Plan_6_HSA_EmployerContribution_Family",
+        "name": "Plan_6_HSA_EmployerContribution_Family",
+        "conditionExpression":"formData.Plan_6_Type == 'with HSA'"
+    },
+        {
+        "type": "select",
+        "label": "Cost Share",
+        "model": "Plan_6_HSA_Plan_Type",
+        "name": "Plan_6_HSA_Plan_Type",
+      "conditionExpression":"formData.Plan_6_Type == 'with HSA'",
+       "options":{
+          "Coinsurance after Deductible":{
+            "label":"Coinsurance after Deductible"
+          },
+          "Copayment after Deductible":{
+            "label":"Copayment after Deductible"
+          }
+        }  
+  },
+       {
+        "type": "text",
+        "label": "Plan Pays %",
+        "model": "Plan_6_HSA_PlanPays_Amount",
+        "name": "Plan_6_HSA_PlanPays_Amount",
+        "conditionExpression":"formData.Plan_6_Type == 'with HSA' && formData.Plan_6_HSA_Plan_Type != 'Copayment after Deductible'"
+    },
+    {
+        "type": "text",
+        "label": "You Pay %",
+        "model": "Plan_6_HSA_YouPay_Amount",
+        "name": "Plan_6_HSA_YouPay_Amount",
+        "conditionExpression":"formData.Plan_6_Type == 'with HSA'"
+    },
+      {
+        "type": "select",
+        "label": "Year for IRS Guidelines",
+        "model": "Plan_6_HSA_PlanYear",
+        "name": "Plan_6_HSA_PlanYear",
+        "conditionExpression":"formData.Plan_6_Type == 'with HSA'",
+       "options":{
+          "2018":{
+            "label":"2018"
+          }
+        }  
+  },
+       {
+        "type": "select",
+        "label": "Offer Optum Bank?",
+        "model": "Plan_6_HSA_OptumBank",
+        "name": "Plan_6_HSA_OptumBank",
+      "conditionExpression":"formData.Plan_6_Type == 'with HSA'",
+       "options":{
+          "No":{
+            "label":"No"
+          },
+          "Yes":{
+            "label":"Yes"
+          }
+        }  
   }
   
   ]
@@ -491,7 +1056,6 @@ var templateFields = [
         "label": "Financial account?",
         "model": "Plan_7_Type",
         "name": "Plan_7_Type",
-        "empty": "Please select",
         
         "options":{
           "Traditional":{
@@ -501,8 +1065,173 @@ var templateFields = [
             "label":"with HSA"
           }
         }  
-  }
+  },
   
+     {
+        "type": "text",
+        "label": "EE",
+        "model": "Plan_7_HSA_EmployerContribution_EE",
+        "name": "Plan_7_HSA_EmployerContribution_EE",
+        "conditionExpression":"formData.Plan_7_Type == 'with HSA'"
+    },
+      {
+        "type": "text",
+        "label": "EE + 1",
+        "model": "Plan_7_HSA_EmployerContribution_EEPlusOne",
+        "name": "Plan_7_HSA_EmployerContribution_EEPlusOne",
+        "conditionExpression":"formData.Plan_7_Type == 'with HSA'"
+    },
+       {
+        "type": "text",
+        "label": "EE + Children",
+        "model": "Plan_7_HSA_EmployerContribution_EEPlusChild",
+        "name": "Plan_7_HSA_EmployerContribution_EEPlusChild",
+        "conditionExpression":"formData.Plan_7_Type == 'with HSA'"
+    },
+       {
+        "type": "text",
+        "label": "Family",
+        "model": "Plan_7_HSA_EmployerContribution_Family",
+        "name": "Plan_7_HSA_EmployerContribution_Family",
+        "conditionExpression":"formData.Plan_7_Type == 'with HSA'"
+    },
+        {
+        "type": "select",
+        "label": "Cost Share",
+        "model": "Plan_7_HSA_Plan_Type",
+        "name": "Plan_7_HSA_Plan_Type",
+      "conditionExpression":"formData.Plan_7_Type == 'with HSA'",
+       "options":{
+          "Coinsurance after Deductible":{
+            "label":"Coinsurance after Deductible"
+          },
+          "Copayment after Deductible":{
+            "label":"Copayment after Deductible"
+          }
+        }  
+  },
+       {
+        "type": "text",
+        "label": "Plan Pays %",
+        "model": "Plan_7_HSA_PlanPays_Amount",
+        "name": "Plan_7_HSA_PlanPays_Amount",
+        "conditionExpression":"formData.Plan_7_Type == 'with HSA' && formData.Plan_7_HSA_Plan_Type != 'Copayment after Deductible'"
+    },
+    {
+        "type": "text",
+        "label": "You Pay %",
+        "model": "Plan_7_HSA_YouPay_Amount",
+        "name": "Plan_7_HSA_YouPay_Amount",
+        "conditionExpression":"formData.Plan_7_Type == 'with HSA'"
+    },
+      {
+        "type": "select",
+        "label": "Year for IRS Guidelines",
+        "model": "Plan_7_HSA_PlanYear",
+        "name": "Plan_7_HSA_PlanYear",
+        "conditionExpression":"formData.Plan_7_Type == 'with HSA'",
+       "options":{
+          "2018":{
+            "label":"2018"
+          }
+        }  
+  },
+       {
+        "type": "select",
+        "label": "Offer Optum Bank?",
+        "model": "Plan_7_HSA_OptumBank",
+        "name": "Plan_7_HSA_OptumBank",
+      "conditionExpression":"formData.Plan_7_Type == 'with HSA'",
+       "options":{
+          "No":{
+            "label":"No"
+          },
+          "Yes":{
+            "label":"Yes"
+          }
+        }  
+  }
+  ]
+},
+
+{
+  "type":"accordion",  
+  "name":"FSA",
+  "label":"FSA",
+  "conditionExpression":" formData.FSA == 'Yes'", 
+  "components":[
+     {
+        "type": "select",
+        "label": "Health Care FSA",
+        "model": "FSA_HealthCare",
+        "name": "FSA_HealthCare",
+      
+       "options":{
+          "No":{
+            "label":"No"
+          },
+          "Yes":{
+            "label":"Yes"
+          }
+        }  
+  },
+      {
+        "type": "select",
+        "label": "Dependent Care FSA",
+        "model": "FSA_DependentCare",
+        "name": "FSA_DependentCare",
+      
+       "options":{
+          "No":{
+            "label":"No"
+          },
+          "Yes":{
+            "label":"Yes"
+          }
+        }  
+  }, 
+  {
+        "type": "select",
+        "label": "Limited Purpose FSA",
+        "model": "FSA_LimitedPurpose",
+        "name": "FSA_LimitedPurpose",
+      
+       "options":{
+          "No":{
+            "label":"No"
+          },
+          "Yes":{
+            "label":"Yes"
+          }
+        }  
+  }, 
+       {
+        "type": "select",
+        "label": "Spending Card?",
+        "model": "FSA_SpendingCard",
+        "name": "FSA_SpendingCard",
+      
+       "options":{
+          "No":{
+            "label":"No"
+          },
+          "Yes":{
+            "label":"Yes"
+          }
+        }  
+  }, 
+      {
+        "type": "select",
+        "label": "FSA Plan Year",
+        "model": "FSA_Plan_Year",
+        "name": "FSA_Plan_Year",
+      
+       "options":{
+          "2018":{
+            "label":"2018"
+          }
+        }  
+  }
   ]
 }
 
