@@ -134,13 +134,13 @@ angular.module('dynform', [])
                   newElement.attr('name', field.name ? field.name : bracket(field.model));
                   newElement.attr('id', field.id? field.id : field.name);
                   newElement.attr('ng-model', bracket(field.model, attrs.ngModel));
-               //   newElement.attr('onchange', field.onchange? field.onchange : '');
-                //  newElement.attr('display', field.display? field.display : '');
                   newElement.attr('type', field.type? field.type : '');
                   newElement.attr('ng-if', field.conditionExpression? field.conditionExpression : true);
-                 // newElement.attr('ng-class', '"{\'expandcollapse-heading-collapsed\': active, \'expandcollapse-heading-expanded\': !active}"');
-                  //newElement.attr('ng-click', 'active=!active');
+                  if(field.type == 'text'){
+                    newElement.attr('ng-value', field.defaultValue?field.defaultValue:'');
+                  }
                   // Build parent in case of a nested model
+                 
                   setProperty(model, field.model, {}, null, true);
                     
                   if (angular.isDefined(field.readonly)) {newElement.attr('ng-readonly', field.readonly);}
@@ -232,9 +232,9 @@ angular.module('dynform', [])
                   }
                 }
                 else if (field.type === 'select') {
-                 
+                 count = 0;
                   if (angular.isDefined(field.multiple) && field.multiple !== false) {newElement.attr('multiple', 'multiple');}
-                  if (angular.isDefined(field.empty) && field.empty !== false) {newElement.append(angular.element($document[0].createElement('option')).attr('value', '').html(field.empty));}
+                // if (angular.isDefined(field.empty) && field.empty !== false) {newElement.append(angular.element($document[0].createElement('option')).attr('value', '').html(field.empty));}
                   
                   if (angular.isDefined(field.autoOptions)) {
                     newElement.attr('ng-options', field.autoOptions);
@@ -244,7 +244,11 @@ angular.module('dynform', [])
 
                     angular.forEach(field.options, function (option, childId) {
                       newChild = angular.element($document[0].createElement('option'));
-                      newChild.attr('value', childId);
+                      if(count == 0){
+                         newChild.attr('ng-selected', 'true');
+                      }
+                        newChild.attr('value', childId);
+                     //    newChild.attr('value', childId);
                       if (angular.isDefined(option.disabled)) {newChild.attr('ng-disabled', option.disabled);}
                       if (angular.isDefined(option.slaveTo)) {newChild.attr('ng-selected', option.slaveTo);}
                       if (angular.isDefined(option.label)) {newChild.html(option.label);}
@@ -258,6 +262,7 @@ angular.module('dynform', [])
                       else {
                         newElement.append(newChild);
                       }
+                          count++;
                     });
                     
                     if (!angular.equals(optGroups, {})) {
@@ -345,52 +350,26 @@ angular.module('dynform', [])
                 }
               
                 if(field.type == 'accordion'){
-                   var conditionExpression = ''+ "" + field.conditionExpression?field.conditionExpression:true + "" +'';     
-                   var clickCbString = 'setActiveIndex('+ "" + id + "" +')';     
+                  var conditionExpression = ''+ "" + field.conditionExpression?field.conditionExpression:true + "" +'';     
+                  var clickCbString = 'setActiveIndex('+ "" + id + "" +')';     
                   collapseItem = angular.element('<div class="expandcollapse-item" ng-if = "'+conditionExpression+'">'+
                   '<div ng-click='+ clickCbString +'  ng-class="{\'expandcollapse-heading-collapsed\': '+id+', \'expandcollapse-heading-expanded\': !'+id+'}">'
-                +'<p class="marcom-accordion">'+field.name+'</p></div>'
-              +'<div class="slideDown ng-hide" ng-hide="activeIndex != '+id+'">'
-            +'<div class="expand-collapse-content"></div></div></div>');
+                  +'<p class="marcom-accordion">'+field.name+'</p></div>'
+                  +'<div class="slideDown ng-hide" ng-hide="activeIndex != '+id+'">'
+                  +'<div class="expand-collapse-content"></div></div></div>');
                   this.append(collapseItem);
-
-                  //var temp = this.children();
-                                  
-                //  newChild = angular.element('<div ng-click='+ clickCbString +'  ng-class="{\'expandcollapse-heading-collapsed\': '+id+', \'expandcollapse-heading-expanded\': !'+id+'}">');
-                  //temp.append(newChild);
-                  //this.append('</div>');
-
-                  // var pTag = temp.children();
-                  // newChild = angular.element('<p class="marcom-accordion">'+field.name+'</p>'); 
-                  // pTag.append(newChild);
-
-                  // var slideDown = collapseItem.children();
-                  // newChild = angular.element('<div class="slideDown ng-hide" ng-hide="activeIndex != '+id+'">'); 
-                  // temp.append(newChild);
-                  
-                  // data = temp.children();
-                  // newChild = angular.element('<div class="expand-collapse-content">'); 
-                  // data.append(newChild); 
-                 
                   angular.forEach(template[id].components, buildFields, element);
                                   
                 }else{
-                 
-                    var mainElem = angular.element(collapseItem.children().children()[1]);
-                   // (mainElem).append(newElement);
-                  // $(collapseItem+":last-child").append(newElement);
-                  console.log(mainElem);
-                  mainElem.append(newElement);
+                    var lengthOfcollapseItem = collapseItem.children().children().length-1;
+                    var mainElem = angular.element(collapseItem.children().children()[lengthOfcollapseItem]);
+                    //console.log(mainElem);
+                    mainElem.append(newElement);
                     newElement = null;
                 }
               }
             };
 
-
-                  // for(var i=0;i<template.length;i++){
-                  //     angular.forEach(template, buildFields, element);  
-                  //     angular.forEach(template[0].groups, buildFields, element);
-                  // }  
                 angular.forEach(template, buildFields, element);  
             
             //  Determine what tag name to use (ng-form if nested; form if outermost)
@@ -435,7 +414,7 @@ angular.module('dynform', [])
             element.replaceWith(newElement);
           });
         }
-         count++;
+     
 
            $scope.setActiveIndex = function(id){
                   $scope.activeIndex = $scope.activeIndex == id ? undefined : id;
